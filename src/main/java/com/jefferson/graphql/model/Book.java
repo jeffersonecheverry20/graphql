@@ -1,18 +1,30 @@
 package com.jefferson.graphql.model;
 
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Table
+@Entity
 @Setter
 @Getter
+@NoArgsConstructor
 public class Book {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private String ID;
     private String name;
-    private int pageCount;
-    private String authorID;
+    private String publisher;
+    private int numberOfPages;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Author author;
+
+    public Book(String ID, String name, String publisher, int numberOfPages, Author author) {
+        this.ID = ID;
+        this.name = name;
+        this.publisher = publisher;
+        this.numberOfPages = numberOfPages;
+        this.author = author;
+    }
 }
